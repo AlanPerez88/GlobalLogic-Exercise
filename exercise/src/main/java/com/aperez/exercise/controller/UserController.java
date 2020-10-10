@@ -1,6 +1,7 @@
 package com.aperez.exercise.controller;
 
 import com.aperez.exercise.dto.UserDto;
+import com.aperez.exercise.entity.User;
 import com.aperez.exercise.exception.UserException;
 import com.aperez.exercise.service.UserService;
 
@@ -22,7 +23,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDto> save(@RequestBody UserDto userDto) throws UserException {
+    public ResponseEntity<User> save(@RequestBody UserDto userDto) throws UserException {
         return new ResponseEntity<>(service.save(userDto), HttpStatus.OK);
     }
 

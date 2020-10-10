@@ -8,4 +8,5 @@ public class PhoneDto {
     private String number;
     private String citycode;
     private String countrycode;
+    private UserDto userDto;
 }
