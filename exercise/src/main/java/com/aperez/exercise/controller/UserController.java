@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     @Autowired
-    UserService service;
+    UserService userService;
 
     @GetMapping
     public ResponseEntity<String> index() {
@@ -23,8 +23,15 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> save(@RequestBody UserDto userDto) throws UserException {
-        return new ResponseEntity<>(service.save(userDto), HttpStatus.OK);
+    public ResponseEntity<UserDto> save(@RequestBody UserDto userDto) throws UserException {
+        UserDto userSaved = userService.save(userDto);
+        return new ResponseEntity<>(userSaved, HttpStatus.CREATED);
+    }
+
+    @PutMapping
+    public ResponseEntity<UserDto> update(@RequestBody UserDto userDTO) throws UserException{
+        UserDto userUpdated = userService.update(userDTO);
+        return new ResponseEntity<>(userUpdated, HttpStatus.OK);
     }
 
 }

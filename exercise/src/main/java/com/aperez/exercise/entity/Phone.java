@@ -1,21 +1,28 @@
 package com.aperez.exercise.entity;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
-@Data
-@NoArgsConstructor
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Phone {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String number;
-    private String citycode;
-    private String countrycode;
-    @ManyToOne
+
+    private Integer number;
+    private Integer citycode;
+    private Integer countrycode;
+
+    @ManyToOne(cascade = CascadeType.ALL)
     private User user;
+
 }

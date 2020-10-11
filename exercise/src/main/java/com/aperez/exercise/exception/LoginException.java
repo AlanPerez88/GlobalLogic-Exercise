@@ -7,11 +7,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class JwtException extends Exception {
+public class LoginException extends Exception {
 
     private static final long serialVersionUID = 1L;
 
+    final Integer code;
     final String message;
-
 
 }

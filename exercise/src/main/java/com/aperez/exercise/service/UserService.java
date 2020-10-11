@@ -8,8 +8,9 @@ import com.aperez.exercise.exception.UserException;
 
 public interface UserService {
 
-    User save(UserDto userDto) throws UserException;
+    UserDto save(UserDto userDto) throws UserException;
+    UserDto update(UserDto userDto);
+    UserDto findById(Long id);
 
-    List<UserDto> findAll();
 
 }

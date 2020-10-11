@@ -1,41 +1,67 @@
 package com.aperez.exercise.entity;
 
-import lombok.Data;
+import com.aperez.exercise.validator.Password;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
-import javax.persistence.criteria.Fetch;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-@Data
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String username;
+
+    @NotEmpty
+    private String name;
+
+    @NotEmpty
+    @Password
     private String password;
+
+    @Email
+    @NotEmpty
+    @Column(unique = true)
     private String email;
-    private Date created;
-    private Date updated;
-    private Date lastLogin;
+
     private String token;
-    private boolean isActive;
 
-    @OneToMany(fetch=FetchType.EAGER, mappedBy = "user")
-    private Set<Phone> phones = new HashSet<>();
+    @Temporal(TemporalType.DATE)
+    private Date created;
 
+    @Temporal(TemporalType.DATE)
+    private Date modified;
+
+    @Temporal(TemporalType.DATE)
+    private Date lastLogin;
+
+    private boolean isActive = true;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private Set<Phone> phones;
 
     @PrePersist
-    private void prePersist() {
+    private void prePersist(){
         this.created = new Date();
     }
 
     @PreUpdate
-    private void preUpdate() {
-        this.updated = new Date();
+    private void preUpdate(){
+        this.modified = new Date();
     }
+
+
+
 }
