@@ -10,8 +10,6 @@ import lombok.Setter;
 public class LoginException extends Exception {
 
     private static final long serialVersionUID = 1L;
-
-    final Integer code;
     final String message;
 
 }

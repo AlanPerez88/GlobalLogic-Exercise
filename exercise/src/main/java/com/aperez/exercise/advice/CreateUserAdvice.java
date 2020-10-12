@@ -25,7 +25,6 @@ public class CreateUserAdvice {
     public ResponseEntity<Map<String, Object>> exampleException(UserException e) {
         log.error("Error: {}", e.getLocalizedMessage(), e);
         Map<String, Object> response = new HashMap<>();
-        response.put("code", e.getCode());
         response.put("message", e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }

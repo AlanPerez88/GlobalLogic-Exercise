@@ -3,17 +3,12 @@ package com.aperez.exercise.service.impl;
 import com.aperez.exercise.dto.UserDto;
 import com.aperez.exercise.entity.User;
 import com.aperez.exercise.exception.JwtException;
-import com.aperez.exercise.exception.LoginException;
 import com.aperez.exercise.repository.UserRepository;
 import com.aperez.exercise.service.LoginService;
 import com.aperez.exercise.util.Jwt;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -36,13 +31,18 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public UserDto login(UserDto userDto, String authorization) throws JwtException {
 
-    jwtUtil.validateToken(authorization, userDto);
-    User user = userRepository.findByEmailPassword(userDto.getEmail(),userDto.getPassword());
-    user.setLastLogin(new Date());
-    user.setModified(new Date());
-    userRepository.save(user);
+        jwtUtil.validateToken(authorization, userDto);
+        User user = userRepository.findByEmailPassword(userDto.getEmail(), userDto.getPassword());
+        if (user != null) {
+            user.setLastLogin(new Date());
+            user.setModified(new Date());
+            user.setActive(true);
+            userRepository.save(user);
+        } else {
+            throw new JwtException("Usuario no encontrado");
+        }
 
-     return modelMapper.map(user, UserDto.class);
+        return modelMapper.map(user, UserDto.class);
     }
 
 
@@ -50,10 +50,31 @@ public class LoginServiceImpl implements LoginService {
     public UserDto logout(UserDto userDto, String authorization) throws JwtException {
 
         jwtUtil.validateToken(authorization, userDto);
-        User user = userRepository.findByEmailPassword(userDto.getEmail(),userDto.getPassword());
+        User user = userRepository.findByEmailPassword(userDto.getEmail(), userDto.getPassword());
         user.setModified(new Date());
         user.setActive(false);
         userRepository.save(user);
+
+        return modelMapper.map(user, UserDto.class);
+    }
+
+
+    @Override
+    public UserDto getToken(UserDto userDto) throws JwtException {
+
+        User user = userRepository.findByEmailPassword(userDto.getEmail(), userDto.getPassword());
+        if (user != null) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("password", userDto.getPassword());
+            String jwt = jwtUtil.makeToken(userDto.getEmail(), map);
+            user.setModified(new Date());
+            user.setToken(jwt);
+            user.setActive(false);
+            userRepository.save(user);
+        } else {
+            throw new JwtException("Usuario debe estar creado para solicitar token");
+        }
+
 
         return modelMapper.map(user, UserDto.class);
     }

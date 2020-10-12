@@ -1,7 +1,6 @@
 package com.aperez.exercise.controller;
 
 import com.aperez.exercise.dto.UserDto;
-import com.aperez.exercise.entity.User;
 import com.aperez.exercise.exception.UserException;
 import com.aperez.exercise.service.UserService;
 
@@ -14,13 +13,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 public class UserController {
 
+
     @Autowired
     UserService userService;
-
-    @GetMapping
-    public ResponseEntity<String> index() {
-        return new ResponseEntity<>("work", HttpStatus.OK);
-    }
 
     @PostMapping
     public ResponseEntity<UserDto> save(@RequestBody UserDto userDto) throws UserException {
