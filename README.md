@@ -25,10 +25,11 @@ gradle jacocoTestReport
 
 
 #### _Test the app_
-
+En la carpeta postman se encuentra el json para postman con los request que se detallan acontinuación.
 
 * Crear usuario **POST**
-Se validan los formatos para Email, Password. Una vez creado el usuario se genera un token (JWT) que es retornado en la salida del servicio
+
+Se validan los formatos para Email, Password. Una vez creado el usuario se genera un token (JWT) que es retornado en la salida del servicio.
 ```
 http://localhost:9001/user
 {
