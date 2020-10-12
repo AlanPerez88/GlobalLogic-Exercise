@@ -52,7 +52,10 @@ http://localhost:9001/user
 ```
 
 
+
+
 * Login. **POST**
+
 Se valida que el usario ya exista en BD, si existe se valida token y se actualiza fecha de login.
 
 ```
@@ -65,7 +68,10 @@ Enviar token generado al crear usuario en Authorization Header
 ```
 
 
+
+
 * Logout. **POST**
+
 Se valida que el usario ya exista en BD, si existe se valida token y se actualiza isActive, dando a enteder que el usuario no esta activo.
 
 ```
@@ -77,7 +83,11 @@ Enviar token generado al crear usuario en Authorization Header
 }
 ```
 
+
+
+
 * Update **PUT**
+
 Actualizacion de usuario.
 ```
 http://localhost:9001/user
@@ -107,6 +117,7 @@ http://localhost:9001/user
 
 
 * Get Token **POST**
+
 Servicio que tiene la funcionalidad de entregar un token valido para un usuario ya existente.
 ```
 http://localhost:9001/api/getToken
